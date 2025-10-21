@@ -2,6 +2,7 @@ import { MoreVertical, Plus } from "lucide-react";
 import { Button } from "@/Components/global/button";
 import { useState } from "react";
 import { CoursesFilter } from "./CoursesFilter";
+import CreateCourseModal from "./CreateCourseModal";
 
 interface Course {
   id: string;
@@ -95,6 +96,7 @@ export const CoursesTable = ({ onCourseAction }: CoursesTableProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(7);
   const [filteredCourses, setFilteredCourses] = useState(coursesData);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -112,6 +114,21 @@ export const CoursesTable = ({ onCourseAction }: CoursesTableProps) => {
   const handleClearFilters = () => {
     setSearchQuery("");
     // Add your clear filters logic
+  };
+
+  const handleAddCourse = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCreateCourse = (courseData: any) => {
+    console.log('Creating course:', courseData);
+    // Here you would typically send the data to your API
+    // For now, we'll just log it
+    alert('Course created successfully!');
   };
 
   return (
@@ -199,10 +216,18 @@ export const CoursesTable = ({ onCourseAction }: CoursesTableProps) => {
 
       <Button
         size="lg"
-        className="fixed bottom-8 right-8 rounded-full w-14 h-14 shadow-lg hover:shadow-xl transition-shadow"
+        className="fixed bottom-8 right-8 rounded-full w-16 h-16 shadow-xl hover:shadow-2xl transition-all duration-300 bg-blue-600 hover:bg-blue-700 text-white"
+        onClick={handleAddCourse}
       >
         <Plus className="w-6 h-6" />
       </Button>
+
+      {/* Create Course Modal */}
+      <CreateCourseModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleCreateCourse}
+      />
     </div>
   );
 };

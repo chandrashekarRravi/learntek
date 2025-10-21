@@ -1,10 +1,12 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
-import { CoursesFilter as FilterBar } from '../Components/CoursesFilter';
-import { CoursesTable as CourseTable } from '../Components/CoursesTable';
+import { CoursesFilter as FilterBar } from '@/Components/Courses/CoursesFilter';
+import { CoursesTable as CourseTable } from '@/Components/Courses/CoursesTable';
+import CreateCourseModal from '../Components/Courses/CreateCourseModal';
 
 const Courses: React.FC = () => {
     const [searchQuery, setSearchQuery] = React.useState('');
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
 
     const handleSearchChange = (query: string) => {
         setSearchQuery(query);
@@ -28,7 +30,18 @@ const Courses: React.FC = () => {
     };
 
     const handleAddCourse = () => {
-        console.log('Add new course clicked');
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCreateCourse = (courseData: any) => {
+        console.log('Creating course:', courseData);
+        // Here you would typically send the data to your API
+        // For now, we'll just log it
+        alert('Course created successfully!');
     };
 
     return (
@@ -59,6 +72,13 @@ const Courses: React.FC = () => {
             >
                 <Plus className="w-6 h-6 group-hover:scale-110 transition-transform duration-200" />
             </button>
+
+            {/* Create Course Modal */}
+            <CreateCourseModal
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                onSubmit={handleCreateCourse}
+            />
         </div>
     );
 };
