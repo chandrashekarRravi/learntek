@@ -1,8 +1,7 @@
-import { MoreVertical, Plus } from "lucide-react";
+import { MoreVertical, Plus, Eye, Edit } from "lucide-react";
 import { Button } from "@/Components/global/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CoursesFilter } from "./CoursesFilter";
-import CreateCourseModal from "./CreateCourseModal";
 
 interface Course {
   id: string;
@@ -17,6 +16,8 @@ interface Course {
 
 interface CoursesTableProps {
   onCourseAction: (courseId: string, action: string) => void;
+  onCourseClick?: (courseId: string) => void;
+  onAddCourse?: () => void;
 }
 
 const coursesData: Course[] = [
@@ -92,11 +93,11 @@ const coursesData: Course[] = [
   },
 ];
 
-export const CoursesTable = ({ onCourseAction }: CoursesTableProps) => {
+export const CoursesTable = ({ onCourseAction, onCourseClick, onAddCourse }: CoursesTableProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(7);
   const [filteredCourses, setFilteredCourses] = useState(coursesData);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -117,19 +118,54 @@ export const CoursesTable = ({ onCourseAction }: CoursesTableProps) => {
   };
 
   const handleAddCourse = () => {
-    setIsModalOpen(true);
+    if (onAddCourse) {
+      onAddCourse();
+    }
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleCourseRowClick = (courseId: string) => {
+    if (onCourseClick) {
+      onCourseClick(courseId);
+    }
   };
 
-  const handleCreateCourse = (courseData: any) => {
-    console.log('Creating course:', courseData);
-    // Here you would typically send the data to your API
-    // For now, we'll just log it
-    alert('Course created successfully!');
+  const handleDropdownToggle = (courseId: string) => {
+    setActiveDropdown(activeDropdown === courseId ? null : courseId);
   };
+
+  const handleViewCourse = (courseId: string) => {
+    if (onCourseClick) {
+      onCourseClick(courseId);
+    }
+    setActiveDropdown(null);
+  };
+
+  const handleEditCourse = (courseId: string) => {
+    onCourseAction(courseId, 'edit');
+    setActiveDropdown(null);
+  };
+
+  const handleCloseDropdown = () => {
+    setActiveDropdown(null);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.dropdown-menu') && !target.closest('.dropdown-trigger')) {
+        setActiveDropdown(null);
+      }
+    };
+
+    if (activeDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [activeDropdown]);
 
   return (
     <div className="space-y-4">
@@ -160,7 +196,8 @@ export const CoursesTable = ({ onCourseAction }: CoursesTableProps) => {
               {filteredCourses.map((course, index) => (
                 <tr
                   key={course.id}
-                  className="border-b border-border hover:bg-[hsl(var(--table-row-hover))] transition-colors"
+                  className="border-b border-border hover:bg-[hsl(var(--table-row-hover))] transition-colors cursor-pointer"
+                  onClick={() => handleCourseRowClick(course.id)}
                 >
                   <td className="px-6 py-4 text-sm text-foreground">{course.id}</td>
                   <td className="px-6 py-4 text-sm text-foreground">{course.name}</td>
@@ -172,9 +209,42 @@ export const CoursesTable = ({ onCourseAction }: CoursesTableProps) => {
                     {course.completed}/{course.planned}
                   </td>
                   <td className="px-6 py-4">
-                    <button className="p-1 hover:bg-accent/10 rounded transition-colors">
-                      <MoreVertical className="w-5 h-5 text-foreground" />
-                    </button>
+                    <div className="relative">
+                      <button
+                        className="dropdown-trigger p-1 hover:bg-accent/10 rounded transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDropdownToggle(course.id);
+                        }}
+                      >
+                        <MoreVertical className="w-5 h-5 text-foreground" />
+                      </button>
+
+                      {activeDropdown === course.id && (
+                        <div className="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleViewCourse(course.id);
+                            }}
+                            className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                          >
+                            <Eye className="w-4 h-4 mr-3 text-gray-500" />
+                            View
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEditCourse(course.id);
+                            }}
+                            className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                          >
+                            <Edit className="w-4 h-4 mr-3 text-gray-500" />
+                            Edit
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -221,13 +291,6 @@ export const CoursesTable = ({ onCourseAction }: CoursesTableProps) => {
       >
         <Plus className="w-6 h-6" />
       </Button>
-
-      {/* Create Course Modal */}
-      <CreateCourseModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onSubmit={handleCreateCourse}
-      />
     </div>
   );
 };
