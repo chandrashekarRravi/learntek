@@ -14,14 +14,27 @@ export const NotificationsPanel = ({ isOpen, onClose }: NotificationsPanelProps)
 
   const unreadNotifications = mockNotifications.filter((n) => !n.isRead);
 
+  const getAvatarColor = (name: string) => {
+    const colors = [
+      "bg-blue-100 text-blue-700",
+      "bg-red-100 text-red-700",
+      "bg-green-100 text-green-700",
+      "bg-purple-100 text-purple-700",
+      "bg-yellow-100 text-yellow-700",
+      "bg-pink-100 text-pink-700",
+    ];
+    const index = name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) % colors.length;
+    return colors[index];
+  };
+
   return (
     <>
       <div
         className="fixed inset-0 bg-black/20 z-40"
         onClick={onClose}
       />
-      <div className="fixed right-0 top-16 w-96 bg-card border-l shadow-lg z-50 max-h-[calc(100vh-4rem)] overflow-auto">
-        <div className="p-4 border-b flex items-center justify-between sticky top-0 bg-card">
+      <div className="fixed right-0 top-16 w-96 bg-background border-l shadow-lg z-50 max-h-[calc(100vh-4rem)] flex flex-col">
+        <div className="p-4 border-b flex items-center justify-between bg-background">
           <h2 className="text-lg font-semibold">
             Notifications ({unreadNotifications.length})
           </h2>
@@ -30,38 +43,36 @@ export const NotificationsPanel = ({ isOpen, onClose }: NotificationsPanelProps)
           </Button>
         </div>
 
-        <div className="p-4 space-y-4">
+        <div className="flex-1 overflow-auto p-4 space-y-4">
           {unreadNotifications.map((notification) => (
-            <div key={notification.id} className="space-y-2">
-              <div className="flex gap-3">
-                <Avatar className="h-10 w-10">
-                  <AvatarFallback className="bg-primary/10 text-primary text-sm">
-                    {notification.from
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium">
-                    {notification.from} ({notification.fromRole}) messaged to{" "}
-                    {notification.to} ({notification.toRole})
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {notification.timestamp} | {notification.courseCode}
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {notification.message}
-                  </p>
-                </div>
+            <div key={notification.id} className="flex gap-3">
+              <Avatar className="h-10 w-10 flex-shrink-0">
+                <AvatarFallback className={getAvatarColor(notification.from)}>
+                  {notification.from
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium leading-relaxed">
+                  {notification.from} ({notification.fromRole}) messaged to{" "}
+                  {notification.to} ({notification.toRole})
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {notification.timestamp} | {notification.courseCode}
+                </p>
+                <p className="text-sm text-foreground mt-2">
+                  {notification.message}
+                </p>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="p-4 border-t sticky bottom-0 bg-card">
+        <div className="p-4 border-t bg-background flex justify-end">
           <Link to="/notifications" onClick={onClose}>
-            <Button variant="link" className="w-full text-primary">
+            <Button variant="link" className="text-primary font-semibold">
               VIEW ALL
             </Button>
           </Link>
