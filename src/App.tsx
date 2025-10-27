@@ -6,9 +6,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useNavigate, useParams } from "react-router-dom";
 import { Layout } from "@/Components/Layout/Layout";
 import { CoursesTable } from "@/Components/Courses/CoursesTable";
+import StudentsList from "./Components/Students/StudentsList"; // Add this import
+import { StudentsTable } from "./Components/Students/StudentsTable";
 import CourseDetails from "./pages/CourseDetails";
 import EditCourseModal from "./Components/Courses/EditCourseModal";
 import CreateCourseModal from "./Components/Courses/CreateCourseModal";
+import StudentDetailsPage from "./Components/Students/StudentDetailsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -190,6 +193,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/course/:courseId" element={<CourseDetailsPage />} />
+          <Route path="/student/:studentId" element={<StudentDetailsPage />} />
+          <Route path="/students" element={<StudentsList />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -197,5 +202,4 @@ const App = () => (
     </TooltipProvider>
   </QueryClientProvider>
 );
-
 export default App;
