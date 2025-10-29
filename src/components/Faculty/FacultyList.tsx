@@ -155,7 +155,11 @@ export const FacultyList = () => {
           </TableHeader>
           <TableBody>
             {paginatedFaculties.map((faculty) => (
-              <TableRow key={faculty.id}>
+              <TableRow 
+                key={faculty.id}
+                className="cursor-pointer"
+                onClick={() => navigate(`/faculty/${faculty.id}`)}
+              >
                 <TableCell className="font-medium">{faculty.id}</TableCell>
                 <TableCell>
                   {faculty.firstName} {faculty.lastName}
@@ -163,7 +167,7 @@ export const FacultyList = () => {
                 <TableCell>{faculty.subject}</TableCell>
                 <TableCell>{faculty.email || "-"}</TableCell>
                 <TableCell>{faculty.mobile}</TableCell>
-                <TableCell>
+                <TableCell onClick={(e) => e.stopPropagation()}>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="icon">
