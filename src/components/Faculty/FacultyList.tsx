@@ -145,12 +145,12 @@ export const FacultyList = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Faculty ID</TableHead>
-              <TableHead>Faculty Name</TableHead>
-              <TableHead>Subject</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Faculty Mobile</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead className="font-bold">Faculty ID</TableHead>
+              <TableHead className="font-bold">Faculty Name</TableHead>
+              <TableHead className="font-bold">Subject</TableHead>
+              <TableHead className="font-bold">Email</TableHead>
+              <TableHead className="font-bold">Faculty Mobile</TableHead>
+              <TableHead className="font-bold">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -160,7 +160,7 @@ export const FacultyList = () => {
                 className="cursor-pointer"
                 onClick={() => navigate(`/faculty/${faculty.id}`)}
               >
-                <TableCell className="font-medium">{faculty.id}</TableCell>
+                <TableCell>{faculty.id}</TableCell>
                 <TableCell>
                   {faculty.firstName} {faculty.lastName}
                 </TableCell>
@@ -193,7 +193,7 @@ export const FacultyList = () => {
           </TableBody>
         </Table>
 
-        <div className="flex items-center justify-between px-4 py-3 border-t">
+        <div className="flex items-center justify-center px-4 py-3 border-t relative">
           <div className="flex items-center gap-2">
             <span className="text-sm text-muted-foreground">
               Items per page:
@@ -217,7 +217,7 @@ export const FacultyList = () => {
             </Select>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="absolute right-4 flex items-center gap-2">
             <span className="text-sm text-muted-foreground">
               {startIndex + 1} - {Math.min(startIndex + itemsPerPage, filteredFaculties.length)} of{" "}
               {filteredFaculties.length}
