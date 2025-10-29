@@ -170,7 +170,7 @@ export const FacultyList = () => {
                 <TableCell onClick={(e) => e.stopPropagation()}>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
+                      <Button variant="ghost" size="icon" className="focus:bg-transparent active:bg-transparent data-[state=open]:bg-transparent">
                         <MoreVertical className="h-5 w-5" strokeWidth={3} />
                       </Button>
                     </DropdownMenuTrigger>
