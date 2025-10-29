@@ -10,14 +10,14 @@ export const Header = () => {
 
   return (
     <>
-      <header className="h-16 border-b bg-card flex items-center justify-between px-6 sticky top-0 z-40">
+      <header className="h-16 border-b bg-card flex items-center justify-between px-10 sticky top-0 z-40">
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-              <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center">
-                <div className="w-0 h-0 border-l-[12px] border-l-transparent border-b-[20px] border-b-primary border-r-[12px] border-r-transparent transform rotate-45"></div>
-              </div>
-            </div>
+          <div className="flex items-center gap-3">
+            <img 
+              src="/image.png" 
+              alt="Learntek Logo" 
+              className="w-12 h-12 object-contain"
+            />
             <div>
               <h1 className="text-xl font-bold text-foreground">LEARNTEK</h1>
               <p className="text-xs text-muted-foreground">Stay Ahead</p>
