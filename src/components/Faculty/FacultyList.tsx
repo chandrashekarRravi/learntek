@@ -171,7 +171,7 @@ export const FacultyList = () => {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="icon">
-                        <MoreVertical className="h-5 w-5" />
+                        <MoreVertical className="h-5 w-5" strokeWidth={3} />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="bg-card">
