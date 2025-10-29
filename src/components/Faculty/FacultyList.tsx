@@ -111,7 +111,7 @@ export const FacultyList = () => {
 
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline" className="gap-2 font-normal">
                 Filter by subject
                 <ChevronRight className="h-4 w-4" />
               </Button>
@@ -145,12 +145,12 @@ export const FacultyList = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="font-bold">Faculty ID</TableHead>
-              <TableHead className="font-bold">Faculty Name</TableHead>
-              <TableHead className="font-bold">Subject</TableHead>
-              <TableHead className="font-bold">Email</TableHead>
-              <TableHead className="font-bold">Faculty Mobile</TableHead>
-              <TableHead className="font-bold">Actions</TableHead>
+              <TableHead className="font-semibold text-foreground">Faculty ID</TableHead>
+              <TableHead className="font-semibold text-foreground">Faculty Name</TableHead>
+              <TableHead className="font-semibold text-foreground">Subject</TableHead>
+              <TableHead className="font-semibold text-foreground">Email</TableHead>
+              <TableHead className="font-semibold text-foreground">Faculty Mobile</TableHead>
+              <TableHead className="font-semibold text-foreground">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
