@@ -13,6 +13,7 @@ import EditCourseModal from "./Components/Courses/EditCourseModal";
 import CreateCourseModal from "./Components/Courses/CreateCourseModal";
 import StudentDetailsPage from "./Components/Students/StudentDetailsPage";
 import NotFound from "./pages/NotFound";
+import NotificationsPage from "./Components/Notifications/NotificationsPage";
 
 const queryClient = new QueryClient();
 
@@ -195,6 +196,14 @@ const App = () => (
           <Route path="/course/:courseId" element={<CourseDetailsPage />} />
           <Route path="/student/:studentId" element={<StudentDetailsPage />} />
           <Route path="/students" element={<StudentsList />} />
+          <Route
+            path="/notifications"
+            element={
+              <Layout>
+                <NotificationsPage />
+              </Layout>
+            }
+          />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -203,5 +212,3 @@ const App = () => (
   </QueryClientProvider>
 );
 export default App;
-
-

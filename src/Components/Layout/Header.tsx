@@ -1,5 +1,5 @@
-import { Bell, User } from "lucide-react";
-import { Badge } from "../global/badge";
+import { User } from "lucide-react";
+import { NotificationDrawer } from "../Notifications/NotificationDrawer";
 
 export const Header = () => {
   return (
@@ -15,12 +15,7 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="relative p-2 hover:bg-accent/10 rounded-full transition-colors">
-          <Bell className="w-5 h-5 text-foreground" />
-          <Badge className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center p-0 bg-primary text-primary-foreground">
-            2
-          </Badge>
-        </button>
+        <NotificationDrawer />
 
         <button className="p-2 hover:bg-accent/10 rounded-full transition-colors border border-border">
           <User className="w-5 h-5 text-foreground" />
