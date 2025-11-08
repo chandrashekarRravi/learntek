@@ -37,7 +37,15 @@ const Courses: React.FC = () => {
         setIsModalOpen(false);
     };
 
-    const handleCreateCourse = (courseData: any) => {
+    const handleCreateCourse = (courseData: {
+        courseName: string;
+        schedule: string;
+        faculty: string;
+        students: string;
+        startTime: string;
+        endTime: string;
+        totalHours: number;
+    }) => {
         console.log('Creating course:', courseData);
         // Here you would typically send the data to your API
         // For now, we'll just log it

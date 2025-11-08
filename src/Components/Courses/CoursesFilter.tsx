@@ -1,6 +1,6 @@
 import { Search, Filter, ChevronRight } from "lucide-react";
-import { Input } from "@/Components/global/input";
-import { Button } from "@/Components/global/button";
+import Button from "@/Components/mui/Button";
+import TextField from '@mui/material/TextField';
 
 interface CoursesFilterProps {
   searchQuery: string;
@@ -26,9 +26,12 @@ export const CoursesFilter = ({
 
       <div className="relative flex-1 min-w-[200px] max-w-xs">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <Input
+        <TextField
           placeholder="Search by Name"
-          className="pl-9 pr-4"
+          size="small"
+          fullWidth
+          onChange={(e) => onSearchChange(e.target.value)}
+          InputProps={{ className: 'pl-9 pr-4' }}
         />
       </div>
 

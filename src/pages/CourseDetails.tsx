@@ -43,7 +43,15 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ courseId, onBack }) => {
         setIsEditModalOpen(false);
     };
 
-    const handleSaveCourse = (updatedData: any) => {
+    const handleSaveCourse = (updatedData: {
+        name: string;
+        schedule: string;
+        faculty: string;
+        students: string;
+        startTime: string;
+        endTime: string;
+        totalHours: number;
+    }) => {
         setCourseData(prev => ({
             ...prev,
             name: updatedData.name,

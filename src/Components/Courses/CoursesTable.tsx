@@ -1,5 +1,6 @@
 import { MoreVertical, Plus, Eye, Edit } from "lucide-react";
-import { Button } from "@/Components/global/button";
+import Button from "@/Components/mui/Button";
+import { Fab } from "@mui/material";
 import { useState, useEffect } from "react";
 import { CoursesFilter } from "./CoursesFilter";
 
@@ -253,7 +254,7 @@ export const CoursesTable = ({ onCourseAction, onCourseClick, onAddCourse }: Cou
         </div>
 
         <div className="px-6 py-4 flex items-center justify-between border-t border-border">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-15">
             <span className="text-sm text-muted-foreground">Items per page:</span>
             <select
               value={itemsPerPage}
@@ -264,33 +265,41 @@ export const CoursesTable = ({ onCourseAction, onCourseClick, onAddCourse }: Cou
               <option value={10}>10</option>
               <option value={25}>25</option>
             </select>
+            <span className="text-sm text-muted-foreground">1 - 7 of 7</span>
           </div>
 
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">1 - 7 of 7</span>
-            <div className="flex gap-1">
-              <button className="p-1 hover:bg-accent/10 rounded transition-colors disabled:opacity-50" disabled>
-                <svg className="w-5 h-5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button className="p-1 hover:bg-accent/10 rounded transition-colors disabled:opacity-50" disabled>
-                <svg className="w-5 h-5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
+          <div className="flex gap-15">
+            <button className="p-1 hover:bg-accent/10 rounded transition-colors disabled:opacity-50" disabled>
+              <svg className="w-5 h-5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button className="p-1 hover:bg-accent/10 rounded transition-colors disabled:opacity-50" disabled>
+              <svg className="w-5 h-5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
 
-      <Button
-        size="lg"
-        className="fixed bottom-8 right-8 rounded-full w-16 h-16 shadow-xl hover:shadow-2xl transition-all duration-300 bg-blue-600 hover:bg-blue-700 text-white"
+      <Fab
+        color="primary"
+        size="large"
+        sx={{
+          position: 'fixed',
+          bottom: 32,
+          right: 32,
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          '&:hover': {
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+          },
+          transition: 'all 0.3s ease',
+        }}
         onClick={handleAddCourse}
       >
         <Plus className="w-6 h-6" />
-      </Button>
+      </Fab>
     </div>
   );
 };

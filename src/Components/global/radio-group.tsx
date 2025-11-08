@@ -1,36 +1,40 @@
-import * as React from "react";
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import { Circle } from "lucide-react";
 
+import * as React from "react";
+import RadioGroupMUI from "@mui/material/RadioGroup";
+import RadioMUI, { RadioProps as MUIRadioProps } from "@mui/material/Radio";
 import { cn } from "@/lib/utils";
 
-const RadioGroup = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
->(({ className, ...props }, ref) => {
-  return <RadioGroupPrimitive.Root className={cn("grid gap-2", className)} {...props} ref={ref} />;
-});
-RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
+export interface RadioGroupProps {
+  className?: string;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+  children?: React.ReactNode;
+}
 
-const RadioGroupItem = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
->(({ className, ...props }, ref) => {
-  return (
-    <RadioGroupPrimitive.Item
+const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
+  ({ className, value, onChange, children, ...props }, ref) => (
+    <RadioGroupMUI
       ref={ref}
-      className={cn(
-        "aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-        className,
-      )}
+      className={cn("grid gap-2", className)}
+      value={value}
+      onChange={onChange}
       {...props}
     >
-      <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <Circle className="h-2.5 w-2.5 fill-current text-current" />
-      </RadioGroupPrimitive.Indicator>
-    </RadioGroupPrimitive.Item>
-  );
-});
-RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
+      {children}
+    </RadioGroupMUI>
+  )
+);
+RadioGroup.displayName = "RadioGroup";
+
+export interface RadioGroupItemProps extends MUIRadioProps {
+  className?: string;
+}
+
+const RadioGroupItem = React.forwardRef<HTMLButtonElement, RadioGroupItemProps>(
+  ({ className, ...props }, ref) => (
+    <RadioMUI ref={ref} className={cn(className)} {...props} />
+  )
+);
+RadioGroupItem.displayName = "RadioGroupItem";
 
 export { RadioGroup, RadioGroupItem };

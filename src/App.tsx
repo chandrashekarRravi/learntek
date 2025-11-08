@@ -2,6 +2,9 @@ import React from "react";
 import { Toaster } from "@/Components/global/toaster";
 import { Toaster as Sonner } from "@/Components/global/sonner";
 import { TooltipProvider } from "@/Components/global/tooltip";
+// Material UI
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import muiTheme from '@/theme/muiTheme';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useNavigate, useParams } from "react-router-dom";
 import { Layout } from "@/Components/Layout/Layout";
@@ -18,7 +21,15 @@ const Home = () => {
   const navigate = useNavigate();
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false);
-  const [selectedCourse, setSelectedCourse] = React.useState<any>(null);
+  const [selectedCourse, setSelectedCourse] = React.useState<{
+    id: string;
+    name: string;
+    schedule: string;
+    faculty: string;
+    students: string;
+    planned: number;
+    completed: number;
+  } | null>(null);
 
   // Mock course data - in a real app, this would come from an API
   const coursesData = [
@@ -115,14 +126,30 @@ const Home = () => {
     setIsCreateModalOpen(false);
   };
 
-  const handleSaveCourse = (updatedData: any) => {
+  const handleSaveCourse = (updatedData: {
+    name: string;
+    schedule: string;
+    faculty: string;
+    students: string;
+    startTime: string;
+    endTime: string;
+    totalHours: number;
+  }) => {
     console.log('Course updated:', updatedData);
     // Here you would typically send the data to your API
     alert('Course updated successfully!');
     handleCloseEditModal();
   };
 
-  const handleCreateCourse = (courseData: any) => {
+  const handleCreateCourse = (courseData: {
+    courseName: string;
+    schedule: string;
+    faculty: string;
+    students: string;
+    startTime: string;
+    endTime: string;
+    totalHours: number;
+  }) => {
     console.log('Creating course:', courseData);
     // Here you would typically send the data to your API
     alert('Course created successfully!');
@@ -183,18 +210,21 @@ const CourseDetailsPage = () => {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/course/:courseId" element={<CourseDetailsPage />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <ThemeProvider theme={muiTheme}>
+      <CssBaseline />
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/course/:courseId" element={<CourseDetailsPage />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

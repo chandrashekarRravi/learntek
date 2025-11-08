@@ -1,5 +1,8 @@
 import React from 'react';
 import { X, ChevronDown, Clock } from 'lucide-react';
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 interface CreateCourseModalProps {
     isOpen: boolean;
@@ -31,7 +34,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ isOpen, onClose, 
     const [errors, setErrors] = React.useState<Record<string, string>>({});
 
     const handleInputChange = (field: keyof CourseFormData, value: string | number) => {
-        setFormData(prev => ({ ...prev, [field]: value as any }));
+        setFormData(prev => ({ ...prev, [field]: value }));
         // Clear error when user starts typing
         if (errors[field]) {
             setErrors(prev => ({ ...prev, [field]: undefined }));
@@ -98,88 +101,85 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ isOpen, onClose, 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {/* Course Name */}
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Course Name*
-                                </label>
-                                <input
-                                    type="text"
+                                <TextField
+                                    label="Course Name*"
                                     placeholder="Enter course name"
                                     value={formData.courseName}
                                     onChange={(e) => handleInputChange('courseName', e.target.value)}
-                                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.courseName ? 'border-red-500' : 'border-gray-300'
-                                        }`}
+                                    error={!!errors.courseName}
+                                    helperText={errors.courseName}
+                                    fullWidth
+                                    variant="outlined"
+                                    size="small"
                                 />
-                                {errors.courseName && (
-                                    <p className="mt-1 text-sm text-red-600">{errors.courseName}</p>
-                                )}
                             </div>
 
                             {/* Schedule */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Schedule
-                                </label>
-                                <div className="relative">
-                                    <select
-                                        value={formData.schedule}
-                                        onChange={(e) => handleInputChange('schedule', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
-                                    >
-                                        <option value="">Select days</option>
-                                        <option value="Mon, Wed, Fri">Mon, Wed, Fri</option>
-                                        <option value="Tue, Thu">Tue, Thu</option>
-                                        <option value="Mon, Tue, Wed">Mon, Tue, Wed</option>
-                                        <option value="Wed, Fri">Wed, Fri</option>
-                                        <option value="Mon, Thu">Mon, Thu</option>
-                                    </select>
-                                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                </div>
+                                <Select
+                                    value={formData.schedule}
+                                    onChange={(e) => handleInputChange('schedule', e.target.value)}
+                                    displayEmpty
+                                    fullWidth
+                                    variant="outlined"
+                                    size="small"
+                                    sx={{ minHeight: '40px' }}
+                                >
+                                    <MenuItem value="">
+                                        <em>Select days</em>
+                                    </MenuItem>
+                                    <MenuItem value="Mon, Wed, Fri">Mon, Wed, Fri</MenuItem>
+                                    <MenuItem value="Tue, Thu">Tue, Thu</MenuItem>
+                                    <MenuItem value="Mon, Tue, Wed">Mon, Tue, Wed</MenuItem>
+                                    <MenuItem value="Wed, Fri">Wed, Fri</MenuItem>
+                                    <MenuItem value="Mon, Thu">Mon, Thu</MenuItem>
+                                </Select>
                             </div>
 
                             {/* Assign Faculty */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Assign Faculty (Optional)
-                                </label>
-                                <div className="relative">
-                                    <select
-                                        value={formData.faculty}
-                                        onChange={(e) => handleInputChange('faculty', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
-                                    >
-                                        <option value="">Select faculty</option>
-                                        <option value="Michael Jones">Michael Jones</option>
-                                        <option value="Sarah Smith">Sarah Smith</option>
-                                        <option value="Emily Davis">Emily Davis</option>
-                                        <option value="David Wilson">David Wilson</option>
-                                        <option value="Jessica Lee">Jessica Lee</option>
-                                        <option value="Chris Taylor">Chris Taylor</option>
-                                        <option value="Alex Morgan">Alex Morgan</option>
-                                    </select>
-                                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                </div>
+                                <Select
+                                    value={formData.faculty}
+                                    onChange={(e) => handleInputChange('faculty', e.target.value)}
+                                    displayEmpty
+                                    fullWidth
+                                    variant="outlined"
+                                    size="small"
+                                    sx={{ minHeight: '40px' }}
+                                >
+                                    <MenuItem value="">
+                                        <em>Select faculty</em>
+                                    </MenuItem>
+                                    <MenuItem value="Michael Jones">Michael Jones</MenuItem>
+                                    <MenuItem value="Sarah Smith">Sarah Smith</MenuItem>
+                                    <MenuItem value="Emily Davis">Emily Davis</MenuItem>
+                                    <MenuItem value="David Wilson">David Wilson</MenuItem>
+                                    <MenuItem value="Jessica Lee">Jessica Lee</MenuItem>
+                                    <MenuItem value="Chris Taylor">Chris Taylor</MenuItem>
+                                    <MenuItem value="Alex Morgan">Alex Morgan</MenuItem>
+                                </Select>
                             </div>
 
                             {/* Assign Students */}
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Assign Students (Optional)
-                                </label>
-                                <div className="relative">
-                                    <select
-                                        value={formData.students}
-                                        onChange={(e) => handleInputChange('students', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
-                                    >
-                                        <option value="">Select students</option>
-                                        <option value="John Doe">John Doe</option>
-                                        <option value="Jane Smith">Jane Smith</option>
-                                        <option value="Mike Johnson">Mike Johnson</option>
-                                        <option value="Sarah Wilson">Sarah Wilson</option>
-                                        <option value="David Brown">David Brown</option>
-                                    </select>
-                                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                </div>
+                                <Select
+                                    value={formData.students}
+                                    onChange={(e) => handleInputChange('students', e.target.value)}
+                                    displayEmpty
+                                    fullWidth
+                                    variant="outlined"
+                                    size="small"
+                                    sx={{ minHeight: '40px' }}
+                                >
+                                    <MenuItem value="">
+                                        <em>Select students</em>
+                                    </MenuItem>
+                                    <MenuItem value="John Doe">John Doe</MenuItem>
+                                    <MenuItem value="Jane Smith">Jane Smith</MenuItem>
+                                    <MenuItem value="Mike Johnson">Mike Johnson</MenuItem>
+                                    <MenuItem value="Sarah Wilson">Sarah Wilson</MenuItem>
+                                    <MenuItem value="David Brown">David Brown</MenuItem>
+                                </Select>
                             </div>
                         </div>
                     </div>
@@ -228,23 +228,19 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ isOpen, onClose, 
 
                         {/* Total Class Hours */}
                         <div className="mt-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Total Class Hours*
-                            </label>
-                            <div className="relative">
-                                <input
-                                    type="number"
-                                    min="1"
-                                    placeholder="Enter hours"
-                                    value={formData.totalHours || ''}
-                                    onChange={(e) => handleInputChange('totalHours', parseInt(e.target.value) || 0)}
-                                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.totalHours ? 'border-red-500' : 'border-gray-300'
-                                        }`}
-                                />
-                                {errors.totalHours && (
-                                    <p className="mt-1 text-sm text-red-600">{errors.totalHours}</p>
-                                )}
-                            </div>
+                            <TextField
+                                label="Total Class Hours*"
+                                type="number"
+                                placeholder="Enter hours"
+                                value={formData.totalHours || ''}
+                                onChange={(e) => handleInputChange('totalHours', parseInt(e.target.value) || 0)}
+                                error={!!errors.totalHours}
+                                helperText={errors.totalHours}
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                inputProps={{ min: 1 }}
+                            />
                         </div>
                     </div>
 
